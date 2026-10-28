@@ -1,0 +1,43 @@
+# Byte of Geek - Zones Unleashed
+# School Pickup Reminder
+#
+# Sends a reminder when arriving at the School zone
+# between 2:00 pm and 4:30 pm, Monday to Friday.
+#
+# Replace:
+#   person.your_name             - Your Home Assistant person entity
+#   notify.mobile_app_your_phone - Your mobile notification action
+#
+# Requires:
+#   - A zone named School (zone.school)
+#   - A person configured in Home Assistant
+#   - Home Assistant Companion App notifications
+
+alias: Zones Demo - School Pickup Reminder
+description: Send a pickup reminder when arriving at school during pickup hours
+
+triggers:
+  - trigger: zone
+    entity_id: person.your_name
+    zone: zone.school
+    event: enter
+
+conditions:
+  - condition: time
+    after: "14:00:00"
+    before: "16:30:00"
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+
+actions:
+  - action: notify.mobile_app_your_phone
+    data:
+      title: School Pickup
+      message: |
+        You've arrived at school. Don't forget to collect the kids!
+
+mode: single

@@ -1,0 +1,54 @@
+# Byte of Geek - Zones Unleashed
+# Commuting Mode Automation
+#
+# Enables commuting mode when arriving at the train station
+# and disables it when arriving home.
+#
+# Replace:
+#   person.your_name - Your Home Assistant person entity
+#
+# Requires:
+#   - A zone named Train Station (zone.train_station)
+#   - The Home zone (zone.home)
+#   - An input_boolean helper named commuting_mode
+#
+# Create the helper in:
+# Settings > Devices & services > Helpers > Create helper > Toggle
+
+alias: Zones Demo - Commuting Mode
+description: Enable commuting mode at the station and disable it on arriving home
+
+triggers:
+  - trigger: zone
+    entity_id: person.your_name
+    zone: zone.train_station
+    event: enter
+    id: station
+
+  - trigger: zone
+    entity_id: person.your_name
+    zone: zone.home
+    event: enter
+    id: home
+
+conditions: []
+
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: station
+        sequence:
+          - action: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.commuting_mode
+
+      - conditions:
+          - condition: trigger
+            id: home
+        sequence:
+          - action: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.commuting_mode
+
+mode: single

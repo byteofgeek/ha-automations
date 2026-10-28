@@ -1,0 +1,81 @@
+# Byte of Geek - Zones Unleashed
+# Approaching Home Automation
+#
+# Manages heating targets and a welcome light helper based
+# on household presence and the Approaching Home zone.
+#
+# Replace:
+#   person.person_one - First household member
+#   person.person_two - Second household member
+#
+# Requires:
+#   - Home zone (zone.home)
+#   - Approaching Home zone (zone.approaching_home)
+#   - Number helper: input_number.home_heating_target
+#   - Toggle helper: input_boolean.welcome_home_light
+#
+# Uses the Home Assistant in_zones person attribute.
+
+alias: Zones Demo - Approaching Home
+description: Manage heating and welcome lighting based on household presence
+
+triggers:
+  - trigger: state
+    entity_id:
+      - person.person_one
+      - person.person_two
+
+  - trigger: state
+    entity_id:
+      - person.person_one
+      - person.person_two
+    attribute: in_zones
+
+conditions: []
+
+actions:
+  - variables:
+      person_one_home: |
+        {{ 'zone.home' in
+           (state_attr('person.person_one', 'in_zones') or []) }}
+
+      person_one_approaching: |
+        {{ 'zone.approaching_home' in
+           (state_attr('person.person_one', 'in_zones') or []) }}
+
+      person_two_home: |
+        {{ is_state('person.person_two', 'home') }}
+
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: |
+              {{ person_one_home or person_two_home or person_one_approaching }}
+        sequence:
+          - action: input_number.set_value
+            target:
+              entity_id: input_number.home_heating_target
+            data:
+              value: 20
+    default:
+      - action: input_number.set_value
+        target:
+          entity_id: input_number.home_heating_target
+        data:
+          value: 16
+
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: |
+              {{ person_one_approaching and not person_one_home }}
+        sequence:
+          - action: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.welcome_home_light
+    default:
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.welcome_home_light
+
+mode: restart

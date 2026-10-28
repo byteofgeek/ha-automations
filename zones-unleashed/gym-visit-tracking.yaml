@@ -1,0 +1,76 @@
+# Byte of Geek - Zones Unleashed
+# Gym Visit Tracking
+#
+# Counts gym visits and records the duration of the latest visit.
+#
+# On arrival:
+#   - Increments the gym visit counter
+#   - Records the arrival date and time
+#
+# On departure:
+#   - Calculates the visit duration in minutes
+#   - Saves the duration to a Number helper
+#
+# Replace:
+#   person.your_name - Your Home Assistant person entity
+#
+# Requires:
+#   - A zone named Gym (zone.gym)
+#   - Counter helper: counter.gym_visits
+#   - Date and/or time helper: input_datetime.gym_arrival_time
+#   - Number helper: input_number.last_gym_visit_duration
+
+alias: Zones Demo - Gym Visit Tracking
+description: Count gym visits and record visit duration
+
+triggers:
+  - trigger: zone
+    entity_id: person.your_name
+    zone: zone.gym
+    event: enter
+    id: arrived
+
+  - trigger: zone
+    entity_id: person.your_name
+    zone: zone.gym
+    event: leave
+    id: left
+
+conditions: []
+
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: arrived
+        sequence:
+          - action: counter.increment
+            target:
+              entity_id: counter.gym_visits
+
+          - action: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.gym_arrival_time
+            data:
+              timestamp: "{{ now().timestamp() }}"
+
+      - conditions:
+          - condition: trigger
+            id: left
+        sequence:
+          - variables:
+              arrival: |
+                {{ as_timestamp(states('input_datetime.gym_arrival_time'), 0) }}
+              duration: |
+                {{ ((now().timestamp() - arrival | float) / 60) | round(0) }}
+
+          - condition: template
+            value_template: "{{ arrival | float > 0 }}"
+
+          - action: input_number.set_value
+            target:
+              entity_id: input_number.last_gym_visit_duration
+            data:
+              value: "{{ [0, duration | int] | max }}"
+
+mode: queued

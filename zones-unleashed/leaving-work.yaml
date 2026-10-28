@@ -1,0 +1,40 @@
+# Byte of Geek - Zones Unleashed
+# Leaving Work Notification
+#
+# Sends a notification when a person leaves the Work zone
+# on a weekday (Monday to Friday).
+#
+# Replace:
+#   person.your_name           - The person being tracked
+#   notify.mobile_app_your_phone - The notification destination
+#
+# Requires:
+#   - A zone named Work (zone.work)
+#   - A person configured in Home Assistant
+#   - Home Assistant Companion App notifications
+
+alias: Zones Demo - Leaving Work
+description: Notify when a person leaves work on a weekday
+
+triggers:
+  - trigger: zone
+    entity_id: person.your_name
+    zone: zone.work
+    event: leave
+
+conditions:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+
+actions:
+  - action: notify.mobile_app_your_phone
+    data:
+      title: Leaving Work
+      message: Someone has left work and is on their way home.
+
+mode: single

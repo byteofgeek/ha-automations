@@ -1,0 +1,48 @@
+# Byte of Geek - Zones Unleashed
+# Supermarket Shopping List Reminder
+#
+# Sends a notification containing outstanding shopping list items
+# when a person enters the Supermarket zone.
+#
+# Replace:
+#   person.your_name          - Your Home Assistant person entity
+#   notify.mobile_app_your_phone - Your mobile notification action
+#
+# Requires:
+#   - A zone named Supermarket (zone.supermarket)
+#   - The Home Assistant Shopping List (todo.shopping_list)
+#   - Home Assistant Companion App notifications
+
+alias: Zones Demo - Supermarket Reminder
+description: Send outstanding shopping items on arrival
+
+triggers:
+  - trigger: zone
+    entity_id: person.your_name
+    zone: zone.supermarket
+    event: enter
+
+conditions:
+  - condition: numeric_state
+    entity_id: todo.shopping_list
+    above: 0
+
+actions:
+  - action: todo.get_items
+    target:
+      entity_id: todo.shopping_list
+    data:
+      status:
+        - needs_action
+    response_variable: shopping
+
+  - action: notify.mobile_app_your_phone
+    data:
+      title: Shopping Reminder
+      message: >-
+        You've arrived at the supermarket! Here's what you need:
+
+        {% for item in shopping['todo.shopping_list']['items'] %} {{ '\n' }}• {{
+        item.summary }} {% endfor %}
+
+mode: single
