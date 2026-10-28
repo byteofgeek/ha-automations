@@ -1,4 +1,4 @@
-# Byte of Geek – Home Assistant Automations
+# Byte of Geek - Home Assistant Automations
 
 Welcome to the **Byte of Geek Home Assistant Automations** repository!
 
@@ -42,8 +42,13 @@ On Byte of Geek, I share Home Assistant tutorials, smart home guides, product re
 
 If you've found these automations useful and would like to support the work that goes into creating my videos and tutorials, there are a couple of ways you can help:
 
-- ☕ **[Buy Me a Coffee](https://www.buymeacoffee.com/byteofgeek)** – Make a one-off contribution to support the channel.
-- ❤️ **[Become a YouTube Member](https://www.youtube.com/channel/UCU2nsuXb1xP_5DSgsik8J0Q/join)** – Support the channel through a monthly membership.
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_channel-FFDD00?style=flat)](https://www.buymeacoffee.com/byteofgeek)
+
+Make a one-off contribution to support the channel.
+
+[![YouTube Membership](https://img.shields.io/badge/YouTube-Become_a_Member-FF0000?style=flat)](https://www.youtube.com/channel/UCU2nsuXb1xP_5DSgsik8J0Q/join)
+
+Support the channel through a monthly YouTube membership.
 
 There's absolutely no obligation. Watching my videos, leaving a comment and subscribing to the channel are all great ways to show your support too!
 

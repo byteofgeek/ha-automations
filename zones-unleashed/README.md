@@ -223,8 +223,13 @@ GPS accuracy and location update frequency can affect how quickly zone automatio
 
 If you've found these examples useful and would like to support the work that goes into my videos and tutorials, you can:
 
-- ☕ [Buy Me a Coffee](https://www.buymeacoffee.com/byteofgeek) – Make a one-off contribution.
-- ❤️ [Become a YouTube Member](https://www.youtube.com/channel/UCU2nsuXb1xP_5DSgsik8J0Q/join) – Support the channel through a monthly membership.
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Support_the_channel-FFDD00?style=flat)](https://www.buymeacoffee.com/byteofgeek)
+
+Make a one-off contribution to support the channel.
+
+[![YouTube Membership](https://img.shields.io/badge/YouTube-Become_a_Member-FF0000?style=flat)](https://www.youtube.com/channel/UCU2nsuXb1xP_5DSgsik8J0Q/join)
+
+Support the channel through a monthly YouTube membership.
 
 Watching, commenting and subscribing are also great ways to support the channel!
 
